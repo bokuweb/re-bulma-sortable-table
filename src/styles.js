@@ -1,0 +1,55 @@
+export default {
+  table: {
+    borderCollapse: 'collapse',
+    borderSpacing: 0,
+    fontFamily: '"Helvetica Neue", "Helvetica", "Arial", sans-serif',
+    MozOsxFontSmoothing: 'grayscale',
+    WebkitFontSmoothing: 'antialiased',
+    textRendering: 'optimizeLegibility',
+    fontSize: 'inherit',
+    font: '100%',
+    width: '100%',
+    backgroundColor: '#fff',
+    color: '#222324',
+    marginBottom: '20px',
+  },
+  th: {
+    fontWeight: 'bold',
+    verticalAlign: 'bottom',
+    textAlign: 'left',
+    padding: '8px 10px',
+    border: '1px solid #d3d6db',
+    borderWidth: '0 0 2px',
+    color: '#aeb1b5',
+  },
+  td: {
+    fontWeight: 'normal',
+    verticalAlign: 'top',
+    textAlign: 'left',
+    padding: '8px 10px',
+    border: '1px solid #d3d6db',
+    borderWidth: '0 0 1px',
+  },
+  lastTd: {
+    borderBottomWidth: 0,
+  },
+  icon: {
+    display: 'inline-block',
+    margin: '0 0 -1px 16px',
+    width: '10px',
+    height: '100%',
+    position: 'relative',
+  },
+  oddColor: {
+    backgroundColor: '#fff',
+    transition: 'background-color 0.1s',
+  },
+  evenColor: {
+    backgroundColor: '#f5f7fa',
+    transition: 'background-color 0.1s',
+  },
+  hoverColor: {
+    backgroundColor: '#eef2f7',
+    transition: 'background-color 0.1s',
+  },
+};
