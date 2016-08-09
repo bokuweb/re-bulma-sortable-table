@@ -16,6 +16,7 @@ export default class RebulmaSortableTable extends Component {
       key: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
     }),
+    styles: PropTypes.object,
   };
 
   static defaultProps = {
@@ -25,6 +26,7 @@ export default class RebulmaSortableTable extends Component {
       key: '',
       type: 'asc',
     },
+    styles: {},
   }
 
   constructor(props) {
@@ -57,8 +59,15 @@ export default class RebulmaSortableTable extends Component {
 
   sortData(data, key, type = 'asc') {
     return data.sort((a, b) => {
-      if (type === 'asc') return this.compare(a[key], b[key]);
-      if (type === 'desc') return this.compare(b[key], a[key]);
+      const column = this.props.columns.filter(c => c.key === key)[0];
+      if (type === 'asc') {
+        if (column && column.ascSorter) return column.ascSorter(a[key], b[key]);
+        return this.compare(a[key], b[key]);
+      }
+      if (type === 'desc') {
+        if (column && column.descSorter) return column.descSorter(a[key], b[key]);
+        return this.compare(b[key], a[key]);
+      }
       throw new Error('Unkown sort type [${type}], sort type is one of [\'desc\', \'asc\'].');
     });
   }
@@ -77,7 +86,7 @@ export default class RebulmaSortableTable extends Component {
     const disableDesc = key === sort.key && sort.type === 'desc';
     const disableAsc = key === sort.key && sort.type === 'asc';
     return (
-      <div style={styles.icon}>
+      <div style={{ ...styles.icon, ...this.props.styles.icon }}>
         <SortIcon
           onClick={onClick}
           disableAsc={disableAsc}
@@ -93,6 +102,7 @@ export default class RebulmaSortableTable extends Component {
     return this.props.columns.map(c => {
       const style = {
         ...styles.th,
+        ...this.props.styles.th,
         ...c.columnStyle,
         ...(c.props && c.props.style),
       };
@@ -116,6 +126,7 @@ export default class RebulmaSortableTable extends Component {
     return this.props.columns.map(c => {
       const style = {
         ...styles.td,
+        ...this.props.styles.td,
         ...c.columnStyle,
         ...(d.props && d.props.style),
       };
@@ -138,12 +149,14 @@ export default class RebulmaSortableTable extends Component {
         ...i % 2 === 0 ? styles.evenColor : styles.oddColor,
         ...this.state.hoverd === i ? styles.hoverColor : {},
       };
+      const onEnter = () => this.setState({ hoverd: i });
+      const onLeave = () => this.setState({ hoverd: null });
       return (
         <tr
           key={i}
           style={style}
-          onMouseEnter={() => this.setState({ hoverd: i })}
-          onMouseLeave={() => this.setState({ hoverd: null })}
+          onMouseEnter={onEnter}
+          onMouseLeave={onLeave}
         >
           {this.renderData(d)}
         </tr>
@@ -153,7 +166,10 @@ export default class RebulmaSortableTable extends Component {
 
   render() {
     return (
-      <table style={styles.table} className={this.props.className}>
+      <table
+        style={{ ...styles.table, ...this.props.styles.table }}
+        className={this.props.className}
+      >
         <thead>
           <tr>
             {this.renderHeader()}
