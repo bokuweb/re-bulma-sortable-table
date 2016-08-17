@@ -4,14 +4,14 @@ module.exports = function(config) {
     frameworks: ['mocha', 'browserify'],
     files: [
       './node_modules/babel-polyfill/dist/polyfill.js',
-      'test/*.js'
+      'test/*.js',
     ],
     exclude: [
     ],
 
     babelPreprocessor: {
       options: {
-        presets: ['airbnb']
+        presets: ['airbnb'],
       }
     },
     browserify: {
@@ -19,11 +19,12 @@ module.exports = function(config) {
       extensions: ['.js'],
       transform: [
         [require('babelify').configure({
-          plugins: ['babel-plugin-espower']
-        }), { presets: ['airbnb'] }]
+          plugins: ['babel-plugin-espower'],
+        }), { presets: ['airbnb'] }],
       ],
-      configure: function(bundle) {
-        bundle.on('prebundle', function() {
+      configure: (bundle) => {
+        bundle.on('prebundle', () => {
+          bundle.external('react/addons');
           bundle.external('react/lib/ReactContext');
           bundle.external('react/lib/ExecutionEnvironment');
         });

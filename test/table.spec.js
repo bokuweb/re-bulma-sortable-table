@@ -25,11 +25,14 @@ const columns = [
   },
 ];
 
-describe ('Table test', () => {
-  describe ('render', () => {
-    it ('should render expected table with dummy data', () => {
+describe('Table test', () => {
+  describe('render', () => {
+    it('should render expected table with dummy data', () => {
       const wrapper = shallow(<Table data={data} columns={columns} />);
       assert.equal(wrapper.type(), 'table');
+      const th = wrapper.find('th');
+      assert.equal(th.length, 3);
+      console.log(shallow(th.children()))
     });
   });
 });

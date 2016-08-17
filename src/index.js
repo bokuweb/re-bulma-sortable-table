@@ -39,6 +39,11 @@ export default class RebulmaSortableTable extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { key, type } = this.state.sort;
+    this.setState({ data: this.sortData(nextProps.data, key, type) });
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     return !shallowEqual(nextProps, this.props) || !shallowEqual(nextState, this.state);
   }
