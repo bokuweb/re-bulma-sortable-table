@@ -13,19 +13,15 @@ const styles = {
 };
 
 export default function SortIcon(props) {
-  const onTopClick = () => props.onClick('asc');
-  const onBottomClick = () => props.onClick('desc');
   return (
     <div style={props.style}>
       <Arrow
         direction="top"
-        onClick={onTopClick}
         style={{ ...styles.top, display: props.isAscActive ? 'block' : 'none' }}
         color={props.enabledColor}
       />
       <Arrow
         direction="bottom"
-        onClick={onBottomClick}
         style={{ ...styles.bottom, display: props.isDescActive ? 'block' : 'none' }}
         color={props.enabledColor}
       />
@@ -35,7 +31,6 @@ export default function SortIcon(props) {
 
 SortIcon.propTypes = {
   style: PropTypes.object,
-  onClick: PropTypes.func,
   isAscActive: PropTypes.bool,
   isDescActive: PropTypes.bool,
   enabledColor: PropTypes.string,

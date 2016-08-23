@@ -17,19 +17,14 @@ export default function Icon(props) {
     transform: `rotate(${deg}deg)`,
   };
   return (
-    <div
-      onClick={props.onClick}
-      style={{ padding: '5px', width: '8px', cursor: 'pointer', ...props.style }}
-    >
+    <div style={{ padding: '5px', width: '8px', cursor: 'pointer', ...props.style }}>
       <div style={{ ...style, borderColor: props.color }} />
     </div>
   );
 }
 
-
 Icon.propTypes = {
   style: PropTypes.object,
   color: PropTypes.string,
   direction: PropTypes.oneOf(['top', 'bottom']),
-  onClick: PropTypes.func,
 };
