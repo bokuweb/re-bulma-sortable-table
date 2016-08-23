@@ -142,7 +142,7 @@ export default class RebulmaSortableTable extends Component {
           style={style}
           key={c.key}
         >
-          {d[c.key]}
+          {c.render ? c.render(d[c.key]) : d[c.key]}
         </td>
       );
     });
