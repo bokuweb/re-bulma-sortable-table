@@ -21,6 +21,7 @@ export default {
     border: '1px solid #d3d6db',
     borderWidth: '0 0 2px',
     color: '#aeb1b5',
+    position: 'relative',
   },
   td: {
     fontWeight: 'normal',
@@ -38,7 +39,6 @@ export default {
     margin: '0 0 -1px 16px',
     width: '10px',
     height: '100%',
-    position: 'relative',
   },
   oddColor: {
     backgroundColor: '#fff',

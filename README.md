@@ -1,4 +1,4 @@
-# README
+# re-bulma-sortable-table
 
 
 ## License

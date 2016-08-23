@@ -39,6 +39,11 @@ export default class RebulmaSortableTable extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { key, type } = this.state.sort;
+    this.setState({ data: this.sortData(nextProps.data, key, type) });
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     return !shallowEqual(nextProps, this.props) || !shallowEqual(nextState, this.state);
   }
@@ -73,7 +78,7 @@ export default class RebulmaSortableTable extends Component {
   }
 
   sort(key, type) {
-    if (key === this.sort.key && type === this.sort.type) return;
+    if (key === this.state.sort.key && type === this.state.sort.type) return;
     this.setState({
       data: this.sortData(this.state.data, key, type),
       sort: { key, type },
@@ -81,16 +86,14 @@ export default class RebulmaSortableTable extends Component {
   }
 
   renderIcon(key) {
-    const onClick = type => this.sort(key, type);
     const { sort } = this.state;
-    const disableDesc = key === sort.key && sort.type === 'desc';
-    const disableAsc = key === sort.key && sort.type === 'asc';
+    const isDescActive = key === sort.key && sort.type === 'desc';
+    const isAscActive = key === sort.key && sort.type === 'asc';
     return (
       <div style={{ ...styles.icon, ...this.props.styles.icon }}>
         <SortIcon
-          onClick={onClick}
-          disableAsc={disableAsc}
-          disableDesc={disableDesc}
+          isAscActive={isAscActive}
+          isDescActive={isDescActive}
           enabledColor={this.props.enabledIconColor}
           disableColor={this.props.disabledIconColor}
         />
@@ -99,12 +102,20 @@ export default class RebulmaSortableTable extends Component {
   }
 
   renderHeader() {
+    const { key, type } = this.state.sort;
     return this.props.columns.map(c => {
+      const onClick = () => {
+        const nextType = key === c.key && type === 'desc'
+                ? 'asc'
+                : 'desc';
+        this.sort(c.key, nextType);
+      };
       const style = {
         ...styles.th,
         ...this.props.styles.th,
         ...c.columnStyle,
         ...(c.props && c.props.style),
+        cursor: c.sortable === false ? 'auto' : 'pointer',
       };
       if (this.props.isBordered) style.borderWidth = '1px';
       return (
@@ -112,6 +123,7 @@ export default class RebulmaSortableTable extends Component {
           {...c.props}
           style={style}
           key={c.key}
+          onClick={onClick}
         >
           <div>
             {c.name}
@@ -137,7 +149,7 @@ export default class RebulmaSortableTable extends Component {
           style={style}
           key={c.key}
         >
-          {d[c.key]}
+          {c.render ? c.render(d[c.key]) : d[c.key]}
         </td>
       );
     });

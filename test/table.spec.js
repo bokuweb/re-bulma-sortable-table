@@ -1,11 +1,12 @@
 import React from 'react';
-import Table from '../../src';
+import { shallow } from 'enzyme';
+import assert from 'power-assert';
+import Table from '../src';
 
 const data = [
   { id: 0, name: 'Robert Mikels', createdAt: '2016/1/2' },
   { id: 1, name: 'Karyn Holmberg', props: { className: 'custom-class' }, createdAt: '2015/10/21' },
   { id: 2, name: 'John Smith', createdAt: '2012/5/2' },
-  { id: 3, name: 'Misty Abbott', createdAt: '2016/8/1' },
 ];
 
 const columns = [
@@ -24,18 +25,14 @@ const columns = [
   },
 ];
 
-
-export default function Example() {
-  return (
-    <Table
-      data={data}
-      columns={columns}
-      isStriped
-      styles={{
-        icon: { top: '3px' },
-        table: { borderTop: '2px solid #ccc' },
-      }}
-      defaultSort={{ key: 'name', type: 'desc' }}
-    />
-  );
-}
+describe('Table test', () => {
+  describe('render', () => {
+    it('should render expected table with dummy data', () => {
+      const wrapper = shallow(<Table data={data} columns={columns} />);
+      assert.equal(wrapper.type(), 'table');
+      const th = wrapper.find('th');
+      assert.equal(th.length, 3);
+      console.log(shallow(th.children()))
+    });
+  });
+});
