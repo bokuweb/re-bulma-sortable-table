@@ -51,8 +51,12 @@ export default class RebulmaSortableTable extends Component {
   compare(a, b) {
     const ax = [];
     const bx = [];
-    String(a).replace(/(\d+)|(\D+)/g, (_, $1, $2) => ax.push([$1 || Infinity, $2 || '']));
-    String(b).replace(/(\d+)|(\D+)/g, (_, $1, $2) => bx.push([$1 || Infinity, $2 || '']));
+    String(a)
+      .replace(',', '')
+      .replace(/(\d+)|(\D+)/g, (_, $1, $2) => ax.push([$1 || Infinity, $2 || '']));
+    String(b)
+      .replace(',', '')
+      .replace(/(\d+)|(\D+)/g, (_, $1, $2) => bx.push([$1 || Infinity, $2 || '']));
     while (ax.length && bx.length) {
       const an = ax.shift();
       const bn = bx.shift();
